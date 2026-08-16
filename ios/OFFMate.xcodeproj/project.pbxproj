@@ -1,0 +1,278 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000011 /* MCPDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000031 /* MCPDashboardView.swift */; };
+		A10000000000000000000012 /* OFFMateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* OFFMateComponents.swift */; };
+		A10000000000000000000013 /* OFFMateTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* OFFMateTheme.swift */; };
+		A10000000000000000000014 /* PenaltyDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000034 /* PenaltyDemoApp.swift */; };
+		A10000000000000000000015 /* EntryScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000035 /* EntryScreens.swift */; };
+		A10000000000000000000016 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000036 /* HomeScreen.swift */; };
+		A10000000000000000000017 /* PenaltyFlowScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000037 /* PenaltyFlowScreens.swift */; };
+		A10000000000000000000018 /* TabScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000038 /* TabScreens.swift */; };
+		A10000000000000000000019 /* PenaltyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000071 /* PenaltyDomain */; };
+		A1000000000000000000001A /* LiveSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000039 /* LiveSessionModel.swift */; };
+		A1000000000000000000001B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000003B /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A10000000000000000000020 /* OFFMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OFFMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000031 /* MCPDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/MCPDashboardView.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000032 /* OFFMateComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/OFFMateComponents.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000033 /* OFFMateTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/OFFMateTheme.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000034 /* PenaltyDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/PenaltyDemoApp.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000035 /* EntryScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/EntryScreens.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000036 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/HomeScreen.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000037 /* PenaltyFlowScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/PenaltyFlowScreens.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000038 /* TabScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/TabScreens.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000039 /* LiveSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/PenaltyDemoApp/LiveSessionModel.swift; sourceTree = SOURCE_ROOT; };
+		A1000000000000000000003A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = OFFMate/Info.plist; sourceTree = SOURCE_ROOT; };
+		A1000000000000000000003B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OFFMate/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10000000000000000000041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000019 /* PenaltyDomain in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000002 /* OFFMate */,
+				A10000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000002 /* OFFMate */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000034 /* PenaltyDemoApp.swift */,
+				A10000000000000000000031 /* MCPDashboardView.swift */,
+				A10000000000000000000033 /* OFFMateTheme.swift */,
+				A10000000000000000000032 /* OFFMateComponents.swift */,
+				A10000000000000000000035 /* EntryScreens.swift */,
+				A10000000000000000000036 /* HomeScreen.swift */,
+				A10000000000000000000037 /* PenaltyFlowScreens.swift */,
+				A10000000000000000000038 /* TabScreens.swift */,
+				A10000000000000000000039 /* LiveSessionModel.swift */,
+				A1000000000000000000003A /* Info.plist */,
+				A1000000000000000000003B /* Assets.xcassets */,
+			);
+			name = OFFMate;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000020 /* OFFMate.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000050 /* OFFMate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000063 /* Build configuration list for PBXNativeTarget "OFFMate" */;
+			buildPhases = (
+				A10000000000000000000040 /* Sources */,
+				A10000000000000000000041 /* Frameworks */,
+				A10000000000000000000042 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OFFMate;
+			packageProductDependencies = (
+				A10000000000000000000071 /* PenaltyDomain */,
+			);
+			productName = OFFMate;
+			productReference = A10000000000000000000020 /* OFFMate.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10000000000000000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A10000000000000000000050 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = A10000000000000000000062 /* Build configuration list for PBXProject "OFFMate" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10000000000000000000001;
+			packageReferences = (
+				A10000000000000000000070 /* XCLocalSwiftPackageReference "." */,
+			);
+			productRefGroup = A10000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000050 /* OFFMate */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000042 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000000000000000000001B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10000000000000000000040 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000014 /* PenaltyDemoApp.swift in Sources */,
+				A10000000000000000000011 /* MCPDashboardView.swift in Sources */,
+				A10000000000000000000013 /* OFFMateTheme.swift in Sources */,
+				A10000000000000000000012 /* OFFMateComponents.swift in Sources */,
+				A10000000000000000000015 /* EntryScreens.swift in Sources */,
+				A10000000000000000000016 /* HomeScreen.swift in Sources */,
+				A10000000000000000000017 /* PenaltyFlowScreens.swift in Sources */,
+				A10000000000000000000018 /* TabScreens.swift in Sources */,
+				A1000000000000000000001A /* LiveSessionModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A10000000000000000000081 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A10000000000000000000082 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A10000000000000000000083 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OFFMate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kabeen.offmate.demo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A10000000000000000000084 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OFFMate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kabeen.offmate.demo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10000000000000000000062 /* Build configuration list for PBXProject "OFFMate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000081 /* Debug */,
+				A10000000000000000000082 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000063 /* Build configuration list for PBXNativeTarget "OFFMate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000083 /* Debug */,
+				A10000000000000000000084 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		A10000000000000000000070 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A10000000000000000000071 /* PenaltyDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10000000000000000000070 /* XCLocalSwiftPackageReference "." */;
+			productName = PenaltyDomain;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A10000000000000000000000 /* Project object */;
+}

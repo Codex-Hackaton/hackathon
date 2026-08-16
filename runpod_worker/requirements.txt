@@ -1,0 +1,6 @@
+runpod>=1.7,<2
+torch>=2.6,<3
+transformers>=4.49,<5
+accelerate>=1.2,<2
+qwen-vl-utils>=0.0.10,<1
+pillow>=11,<13

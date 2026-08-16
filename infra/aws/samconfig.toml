@@ -1,0 +1,11 @@
+version = 0.1
+
+[dev.deploy.parameters]
+stack_name = "offmate-dev"
+resolve_s3 = true
+s3_prefix = "offmate-dev"
+region = "ap-northeast-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_NAMED_IAM"
+parameter_overrides = "RunPodEndpointId=jqbj9wniq1ou98 RunPodModelId=Qwen/Qwen2.5-VL-3B-Instruct"
+tags = "Project=OFFMate Environment=dev"

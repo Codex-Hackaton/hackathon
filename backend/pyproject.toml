@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "friend-penalty-backend"
+version = "0.1.0"
+description = "Domain core for the friend-based short-form penalty app"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.35,<2",
+    "fastapi>=0.115,<1",
+    "mangum>=0.19,<1",
+    "pillow>=11,<13",
+    "pydantic>=2.10,<3",
+    "uvicorn[standard]>=0.34,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx>=0.28,<1",
+]
+
+[project.scripts]
+offmate-api = "penalty_app.api:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/penalty_app"]

@@ -1,0 +1,328 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: OFFMate MVP serverless backend in ap-northeast-2
+
+Parameters:
+  RunPodEndpointId:
+    Type: String
+    Default: jqbj9wniq1ou98
+  RunPodModelId:
+    Type: String
+    Default: Qwen/Qwen2.5-VL-3B-Instruct
+
+Globals:
+  Function:
+    Runtime: python3.14
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        OFFMATE_DYNAMODB_TABLE: !Ref OffMateTable
+        OFFMATE_PROOF_BUCKET: !Ref ProofBucket
+        RUNPOD_ENDPOINT_ID: !Ref RunPodEndpointId
+        RUNPOD_MODEL_ID: !Ref RunPodModelId
+        RUNPOD_API_KEY_SECRET_ARN: !Ref RunPodApiSecret
+
+Resources:
+  OffMateTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false
+      SSESpecification:
+        SSEEnabled: true
+      Tags:
+        - Key: Project
+          Value: OFFMate
+        - Key: Environment
+          Value: dev
+
+  ProofBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteProofsAfterOneDay
+            Status: Enabled
+            ExpirationInDays: 1
+      Tags:
+        - Key: Project
+          Value: OFFMate
+        - Key: Environment
+          Value: dev
+
+  RunPodApiSecret:
+    Type: AWS::SecretsManager::Secret
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Name: offmate/dev/runpod-api-key
+      Description: RunPod API key used only by OFFMate Lambda functions
+      SecretString: '{"RUNPOD_API_KEY":"REPLACE_AFTER_DEPLOY"}'
+      Tags:
+        - Key: Project
+          Value: OFFMate
+
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: offmate-dev-users
+      UsernameAttributes:
+        - email
+      AutoVerifiedAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 10
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+          RequireUppercase: true
+      UserPoolTags:
+        Project: OFFMate
+        Environment: dev
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: offmate-ios-dev
+      UserPoolId: !Ref UserPool
+      GenerateSecret: false
+      PreventUserExistenceErrors: ENABLED
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+
+  ApiExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: offmate-dev-api-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: offmate-dev-api-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:Query
+                  - dynamodb:TransactWriteItems
+                Resource: !GetAtt OffMateTable.Arn
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub "${ProofBucket.Arn}/*"
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !Ref RunPodApiSecret
+              - Effect: Allow
+                Action:
+                  - states:StartExecution
+                  - states:DescribeExecution
+                Resource:
+                  - !Ref AnalysisStateMachine
+                  - !Sub
+                    - "arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:execution:${StateMachineName}:*"
+                    - StateMachineName: !GetAtt AnalysisStateMachine.Name
+
+  AnalysisWorkerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: offmate-dev-analysis-worker-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: offmate-dev-analysis-worker-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                Resource: !GetAtt OffMateTable.Arn
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "${ProofBucket.Arn}/*"
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !Ref RunPodApiSecret
+
+  StateMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: offmate-dev-analysis-state-machine-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: offmate-dev-invoke-analysis-worker
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt AnalysisWorkerFunction.Arn
+
+  OffMateApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: offmate-dev-api
+      StageName: dev
+      EndpointConfiguration: REGIONAL
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt UserPool.Arn
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: offmate-dev-api
+      CodeUri: ../../backend/
+      Handler: lambda_entry.handler
+      Role: !GetAtt ApiExecutionRole.Arn
+      MemorySize: 768
+      Timeout: 29
+      Environment:
+        Variables:
+          OFFMATE_TRUST_API_GATEWAY_AUTH: "true"
+          OFFMATE_ANALYSIS_STATE_MACHINE_ARN: !Ref AnalysisStateMachine
+      Events:
+        Health:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OffMateApi
+            Path: /health
+            Method: GET
+            Auth:
+              Authorizer: NONE
+        Proxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OffMateApi
+            Path: /{proxy+}
+            Method: ANY
+
+  AnalysisWorkerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: offmate-dev-analysis-worker
+      CodeUri: ../../backend/
+      Handler: cloud_worker_entry.handler
+      Role: !GetAtt AnalysisWorkerRole.Arn
+      MemorySize: 1024
+      Timeout: 300
+
+  AnalysisStateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      StateMachineName: offmate-dev-vlm-analysis
+      StateMachineType: STANDARD
+      RoleArn: !GetAtt StateMachineRole.Arn
+      DefinitionString: !Sub |
+        {
+          "Comment": "Validate and evaluate one OFFMate proof with the RunPod VLM",
+          "StartAt": "EvaluateProof",
+          "States": {
+            "EvaluateProof": {
+              "Type": "Task",
+              "Resource": "arn:${AWS::Partition}:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "${AnalysisWorkerFunction.Arn}",
+                "Payload.$": "$"
+              },
+              "OutputPath": "$.Payload",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 3,
+                  "BackoffRate": 2
+                }
+              ],
+              "End": true
+            }
+          }
+        }
+      Tags:
+        - Key: Project
+          Value: OFFMate
+        - Key: Environment
+          Value: dev
+
+Outputs:
+  ApiBaseUrl:
+    Description: Public base URL; only /health is unauthenticated
+    Value: !Sub "https://${OffMateApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/dev"
+  UserPoolId:
+    Value: !Ref UserPool
+  UserPoolClientId:
+    Value: !Ref UserPoolClient
+  DynamoDBTableName:
+    Value: !Ref OffMateTable
+  ProofBucketName:
+    Value: !Ref ProofBucket
+  AnalysisStateMachineArn:
+    Value: !Ref AnalysisStateMachine
+  RunPodSecretArn:
+    Value: !Ref RunPodApiSecret
